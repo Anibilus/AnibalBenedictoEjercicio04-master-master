@@ -18,17 +18,17 @@ public class Wishlist {
     @EqualsAndHashCode.Include
     private short whislistId;
     @Basic
-    @Column(name = "whislist_name",nullable = false,length = 100)
+    @Column(name = "wishlist_name",nullable = false,length = 100)
     private String whislistName;
     //relacion muchos a uno con customer
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-    //relacion muchos a muchos con product
+    //relacion uno a muchos con product
     @ManyToMany
     @JoinTable(
-            name = "whislist_product",
-            joinColumns = @JoinColumn(name = "whislist_id"),
+            name = "wishlist_product",
+            joinColumns = @JoinColumn(name = "wishlist_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> products;

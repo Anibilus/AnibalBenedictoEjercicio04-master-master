@@ -29,7 +29,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/ProductList")
     public ResponseEntity<List<ProductDTO>> getPaginatedProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size

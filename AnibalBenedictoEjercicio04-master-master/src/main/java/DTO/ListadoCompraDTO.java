@@ -15,8 +15,11 @@ public class ListadoCompraDTO {
     private BigDecimal price;
     private int stock;
     private int quantity;
-
+    private BigDecimal cantidadTotal;
     public static ListadoCompraDTO fromEntity(Product product, Cart cart) {
+        int cantidad=cart.getQuantity();
+        BigDecimal cantidadBigdecimal=BigDecimal.valueOf(cantidad);
+        BigDecimal cantidadTotal = product.getPrice().multiply(cantidadBigdecimal);
         return new ListadoCompraDTO(
                 cart.getCustomer().getFirstName(),
                 product.getProductId(),
@@ -24,7 +27,8 @@ public class ListadoCompraDTO {
                 product.getSku(),
                 product.getPrice(),
                 product.getStock(),
-                cart.getQuantity()
+                cart.getQuantity(),
+                cantidadTotal
         );
     }
 }
