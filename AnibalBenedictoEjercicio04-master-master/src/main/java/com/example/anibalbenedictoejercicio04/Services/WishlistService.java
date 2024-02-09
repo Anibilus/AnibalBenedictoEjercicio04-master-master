@@ -1,13 +1,11 @@
 package com.example.anibalbenedictoejercicio04.Services;
 
-import DTO.ProductDTO;
-import DTO.WishlistDTO;
+import com.example.anibalbenedictoejercicio04.DTO.ProductDTO;
+import com.example.anibalbenedictoejercicio04.DTO.WishlistDTO;
 import com.example.anibalbenedictoejercicio04.Entidades.Product;
 import com.example.anibalbenedictoejercicio04.Entidades.Wishlist;
 import com.example.anibalbenedictoejercicio04.Repositories.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

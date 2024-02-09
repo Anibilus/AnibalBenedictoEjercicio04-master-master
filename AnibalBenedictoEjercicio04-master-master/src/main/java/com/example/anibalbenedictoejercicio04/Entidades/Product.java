@@ -52,6 +52,7 @@ public class Product {
     )
     private List<Wishlist> wishlists;
 
+
     public short getProductId() {
         return productId;
     }

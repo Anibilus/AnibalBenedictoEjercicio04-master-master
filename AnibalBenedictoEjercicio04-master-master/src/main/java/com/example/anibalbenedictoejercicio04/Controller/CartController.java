@@ -1,8 +1,7 @@
 package com.example.anibalbenedictoejercicio04.Controller;
 
-import DTO.ListadoCompraDTO;
+import com.example.anibalbenedictoejercicio04.DTO.ListadoCompraDTO;
 import com.example.anibalbenedictoejercicio04.Services.CartService;
-import com.example.anibalbenedictoejercicio04.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

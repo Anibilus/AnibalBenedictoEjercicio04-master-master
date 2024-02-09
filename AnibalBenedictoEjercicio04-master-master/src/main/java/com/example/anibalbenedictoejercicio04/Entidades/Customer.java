@@ -43,7 +43,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Cart> cart;
     //relacion uno a muchos con orders
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Orders> orders;
     //relacion uno a muchos con Payment
     @OneToMany(mappedBy = "customer")

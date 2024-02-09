@@ -1,5 +1,5 @@
 package com.example.anibalbenedictoejercicio04.Services;
-import DTO.ProductDTO;
+import com.example.anibalbenedictoejercicio04.DTO.ProductDTO;
 import com.example.anibalbenedictoejercicio04.Entidades.Product;
 import com.example.anibalbenedictoejercicio04.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

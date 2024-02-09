@@ -1,4 +1,4 @@
-package DTO;
+package com.example.anibalbenedictoejercicio04.DTO;
 
 import java.math.BigDecimal;
 

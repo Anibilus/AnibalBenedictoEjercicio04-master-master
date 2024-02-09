@@ -1,6 +1,6 @@
 package com.example.anibalbenedictoejercicio04.Services;
 
-import DTO.ListadoCompraDTO;
+import com.example.anibalbenedictoejercicio04.DTO.ListadoCompraDTO;
 import com.example.anibalbenedictoejercicio04.Entidades.Cart;
 import com.example.anibalbenedictoejercicio04.Entidades.Customer;
 import com.example.anibalbenedictoejercicio04.Entidades.Product;

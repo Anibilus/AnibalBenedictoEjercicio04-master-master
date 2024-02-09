@@ -1,7 +1,6 @@
 package com.example.anibalbenedictoejercicio04.Entidades;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +30,7 @@ public class Orders {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     //relacion de uno a muchos con orderItem
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "orders", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> orderItems;
     //relacion de muchos a uno payment
     @ManyToOne

@@ -1,4 +1,4 @@
-package DTO;
+package com.example.anibalbenedictoejercicio04.DTO;
 import com.example.anibalbenedictoejercicio04.Entidades.Product;
 import com.example.anibalbenedictoejercicio04.Entidades.Cart;
 import lombok.AllArgsConstructor;

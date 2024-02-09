@@ -1,10 +1,5 @@
-package DTO;
+package com.example.anibalbenedictoejercicio04.DTO;
 
-import com.example.anibalbenedictoejercicio04.Entidades.Customer;
-import com.example.anibalbenedictoejercicio04.Entidades.Product;
-import com.example.anibalbenedictoejercicio04.Entidades.Wishlist;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import com.example.anibalbenedictoejercicio04.Entidades.Customer;
 import com.example.anibalbenedictoejercicio04.Entidades.Wishlist;
 import lombok.AllArgsConstructor;
