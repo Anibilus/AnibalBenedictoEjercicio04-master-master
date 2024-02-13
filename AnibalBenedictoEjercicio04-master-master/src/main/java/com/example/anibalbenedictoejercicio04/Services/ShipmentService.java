@@ -10,6 +10,7 @@ import com.example.anibalbenedictoejercicio04.Repositories.OrderRepository;
 import com.example.anibalbenedictoejercicio04.Repositories.ShipmentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,34 +18,29 @@ import java.util.List;
 @Service
 public class ShipmentService {
     private final OrderRepository orderRepository;
-    private final CustomerRepository customerRepository;
     private final ShipmentRepository shipmentRepository;
 
-    public ShipmentService(OrderRepository orderRepository, CustomerRepository customerRepository, ShipmentRepository shipmentRepository) {
+    public ShipmentService(OrderRepository orderRepository, ShipmentRepository shipmentRepository) {
         this.orderRepository = orderRepository;
-        this.customerRepository = customerRepository;
         this.shipmentRepository = shipmentRepository;
     }
 
     @Transactional
-    public ShipmentDTO createShipment(short customerId, String city, String country, String state, String zip) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-
+    public ShipmentDTO createShipment(ShipmentDTO shipmentDTO, Customer customer) {
         // Crear un nuevo envío y establecer el cliente
         Shipment shipment = new Shipment();
         shipment.setCustomer(customer);
         shipment.setShipmentDate(LocalDateTime.now());
-        shipment.setCity(city);
-        shipment.setCountry(country);
-        shipment.setState(state);
-        shipment.setZipCode(zip);
+        shipment.setCity(shipmentDTO.getCity());
+        shipment.setCountry(shipmentDTO.getCountry());
+        shipment.setState(shipmentDTO.getState());
+        shipment.setZipCode(shipmentDTO.getZipCode());
         shipment.setAddress(customer.getAddress());
 
         Shipment savedShipment = shipmentRepository.save(shipment);
 
         // Actualizar el shipment_id de las órdenes asociadas al cliente
-        List<Orders> orders = orderRepository.findOrdersByCustomerId(customerId);
+        List<Orders> orders = orderRepository.findOrdersByCustomerId(customer.getCustomerId());
         for (Orders order : orders) {
             order.setShipment(savedShipment);
             orderRepository.save(order);

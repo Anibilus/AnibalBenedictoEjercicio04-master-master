@@ -1,7 +1,9 @@
 package com.example.anibalbenedictoejercicio04.Controller;
 
 import com.example.anibalbenedictoejercicio04.DTO.ShipmentDTO;
+import com.example.anibalbenedictoejercicio04.Entidades.Customer;
 import com.example.anibalbenedictoejercicio04.Entidades.Shipment;
+import com.example.anibalbenedictoejercicio04.Repositories.CustomerRepository;
 import com.example.anibalbenedictoejercicio04.Services.ShipmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +13,21 @@ import org.springframework.web.bind.annotation.*;
 public class ShipmentController {
 
     private final ShipmentService shipmentService;
+    private final CustomerRepository customerRepository;
 
-    public ShipmentController(ShipmentService shipmentService) {
+    public ShipmentController(ShipmentService shipmentService, CustomerRepository customerRepository) {
         this.shipmentService = shipmentService;
+        this.customerRepository = customerRepository;
     }
 
-    @PostMapping
-    public ResponseEntity<ShipmentDTO> createShipment(@RequestBody ShipmentDTO shipmentDTO) {
-        ShipmentDTO createdShipment = shipmentService.createShipment(shipmentDTO);
+    @PostMapping("/{customerId}")
+    public ResponseEntity<ShipmentDTO> createShipment(@PathVariable("customerId") Short customerId, @RequestBody ShipmentDTO shipmentDTO) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        // Aquí puedes modificar el shipmentDTO si es necesario antes de pasar al servicio
+
+        ShipmentDTO createdShipment = shipmentService.createShipment(shipmentDTO, customer);
         return ResponseEntity.ok(createdShipment);
     }
 }
