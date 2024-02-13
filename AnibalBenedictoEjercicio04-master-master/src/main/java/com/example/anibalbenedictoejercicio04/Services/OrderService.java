@@ -1,6 +1,5 @@
 package com.example.anibalbenedictoejercicio04.Services;
 import com.example.anibalbenedictoejercicio04.DTO.OrderDTO;
-import com.example.anibalbenedictoejercicio04.DTO.OrderItemDTO;
 import com.example.anibalbenedictoejercicio04.Entidades.*;
 import com.example.anibalbenedictoejercicio04.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +10,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-
+import com.example.anibalbenedictoejercicio04.Repositories.CustomerRepository;
 @Service
 public class OrderService {
 
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public OrderService(CartRepository cartRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+    public OrderService(CartRepository cartRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository) {
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Transactional
@@ -40,11 +40,15 @@ public class OrderService {
         // Calcular el precio total de la orden
         BigDecimal totalPrice = calculateTotalPrice(cartItems);
 
-        // Crear una nueva orden
+        // Obtener el cliente
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        // Crear una nueva orden y establecer el cliente
         Orders order = new Orders();
         order.setOrderDate(LocalDateTime.now());
         order.setTotalPrice(totalPrice);
-        // Aquí puedes establecer otras propiedades de la orden si es necesario
+        order.setCustomer(customer); // Establecer el cliente en la orden
 
         Orders savedOrder = orderRepository.save(order);
 
