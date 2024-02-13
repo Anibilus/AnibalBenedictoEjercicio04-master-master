@@ -18,8 +18,4 @@ import java.util.List;
 
 @Repository
 public interface ShipmentRepository extends CrudRepository<Shipment, Short>{
-
-    @Query("SELECT s FROM Shipment s WHERE s.orders = :orderId")
-    List<Shipment> findAllByOrderId(@Param("orderId") Short orderId);
-
 }
