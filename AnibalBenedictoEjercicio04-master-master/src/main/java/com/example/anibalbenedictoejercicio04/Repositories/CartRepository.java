@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CartRepository extends PagingAndSortingRepository<Cart, Short> {
+public interface CartRepository extends CrudRepository<Cart, Short> {
     @Query("SELECT c FROM Cart c WHERE c.customer.customerId = :customerId")
     Page<Cart> findCartByCustomerId(Pageable pageable, @Param("customerId") short customerId);
     @Query ("select c from Cart c where c.customer.customerId = :customerId and c.product.productId = :productId")
@@ -33,6 +34,5 @@ public interface CartRepository extends PagingAndSortingRepository<Cart, Short> 
     int deleteProductFromCart(@Param("customerId") Short customerId, @Param("productId") Short productId);
     @Query("SELECT c.quantity FROM Cart c WHERE c.customer.customerId = :customerId AND c.product.productId = :productId")
     int getProductQuantity(@Param("customerId") Short customerId, @Param("productId") Short productId);
-    Cart save(Cart cart);
     }
 

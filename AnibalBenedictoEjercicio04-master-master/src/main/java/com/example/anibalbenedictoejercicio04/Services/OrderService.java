@@ -2,9 +2,11 @@ package com.example.anibalbenedictoejercicio04.Services;
 import com.example.anibalbenedictoejercicio04.DTO.OrderDTO;
 import com.example.anibalbenedictoejercicio04.DTO.OrderItemDTO;
 import com.example.anibalbenedictoejercicio04.Entidades.*;
-import com.example.anibalbenedictoejercicio04.Repositories.OrderRepository;
-import com.example.anibalbenedictoejercicio04.Repositories.ProductRepository;
+import com.example.anibalbenedictoejercicio04.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -15,48 +17,57 @@ import java.util.List;
 @Service
 public class OrderService {
 
+    private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final ProductRepository productRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, ProductRepository productRepository) {
+    public OrderService(CartRepository cartRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+        this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
-        this.productRepository = productRepository;
     }
 
-    public OrderDTO createOrder(Short customerId, Short paymentId, Short shipmentId, BigDecimal totalPrice, List<OrderItemDTO> orderItems) {
+    @Transactional
+    public OrderDTO createOrderFromCart(Short customerId) {
+        // Crear un objeto Pageable para obtener todos los elementos del carrito del cliente
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
+        // Obtener los elementos del carrito del cliente
+        Page<Cart> cartItemsPage = cartRepository.findCartByCustomerId(pageable, customerId);
+        // Convertir la página a una lista
+        List<Cart> cartItems = cartItemsPage.getContent();
+
+        // Calcular el precio total de la orden
+        BigDecimal totalPrice = calculateTotalPrice(cartItems);
+
         // Crear una nueva orden
         Orders order = new Orders();
         order.setOrderDate(LocalDateTime.now());
         order.setTotalPrice(totalPrice);
-        // Setear el customer, payment y shipment a partir de los IDs proporcionados
-        order.setCustomer(new Customer(customerId));
-        order.setPayment(new Payment(paymentId));
-        order.setShipment(new Shipment(shipmentId));
+        // Aquí puedes establecer otras propiedades de la orden si es necesario
 
-        // Guardar la orden en la base de datos
         Orders savedOrder = orderRepository.save(order);
 
         // Crear los elementos de pedido asociados a esta orden
-        List<OrderItem> orderItemsEntities = new ArrayList<>();
-        for (OrderItemDTO orderItemDTO : orderItems) {
+        for (Cart cartItem : cartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrders(savedOrder);
-            Product product = productRepository.findById(orderItemDTO.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
-            orderItem.setProduct(product);
-            orderItem.setQuantity(orderItemDTO.getQuantity());
-            orderItem.setPrice(orderItemDTO.getPrice());
-            orderItemsEntities.add(orderItem);
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+            orderItemRepository.save(orderItem);
         }
+        // Vaciar el carrito después de crear la orden
+        cartRepository.vaciarCarrito(customerId);
 
-        // Guardar los elementos de pedido en la base de datos
-        List<OrderItem> savedOrderItems = orderItemRepository.saveAll(orderItemsEntities);
-
-        // Convertir la orden guardada y sus elementos de pedido en un DTO
         return OrderDTO.fromEntity(savedOrder);
     }
+    private BigDecimal calculateTotalPrice(List<Cart> cartItems) {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (Cart cartItem : cartItems) {
+            BigDecimal itemPrice = cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+            totalPrice = totalPrice.add(itemPrice);
+        }
+        return totalPrice;
+    }
 }
-
-
