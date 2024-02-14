@@ -31,7 +31,7 @@ public class ShipmentDTO {
     public static ShipmentDTO fromEntity(Shipment shipment){
         Customer customer = shipment.getCustomer();
         return new ShipmentDTO(
-                customer.getCustomerId(), // Obtener el ID del cliente
+                customer.getCustomerId(),
                 shipment.getCity(),
                 shipment.getState(),
                 shipment.getCountry(),

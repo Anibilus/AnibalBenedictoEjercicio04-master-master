@@ -36,11 +36,8 @@ public class ShipmentService {
         shipment.setState(shipmentDTO.getState());
         shipment.setZipCode(shipmentDTO.getZipCode());
         shipment.setAddress(customer.getAddress());
-
         Shipment savedShipment = shipmentRepository.save(shipment);
-
-        // Actualizar el shipment_id de las órdenes asociadas al cliente
-        List<Orders> orders = orderRepository.findOrdersByCustomerId(customer.getCustomerId());
+        List<Orders> orders = orderRepository.findOrdersByCustomer(customer);
         for (Orders order : orders) {
             order.setShipment(savedShipment);
             orderRepository.save(order);

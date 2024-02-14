@@ -21,12 +21,9 @@ public class ShipmentController {
     }
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<ShipmentDTO> createShipment(@PathVariable("customerId") Short customerId, @RequestBody ShipmentDTO shipmentDTO) {
+    public ResponseEntity<ShipmentDTO> createShipment(@PathVariable("customerId") short customerId, @RequestBody ShipmentDTO shipmentDTO) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
-
-        // Aquí puedes modificar el shipmentDTO si es necesario antes de pasar al servicio
-
         ShipmentDTO createdShipment = shipmentService.createShipment(shipmentDTO, customer);
         return ResponseEntity.ok(createdShipment);
     }
