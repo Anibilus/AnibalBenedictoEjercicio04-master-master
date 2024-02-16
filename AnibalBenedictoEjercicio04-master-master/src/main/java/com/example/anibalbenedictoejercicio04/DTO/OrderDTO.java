@@ -23,8 +23,13 @@ public class OrderDTO {
 
     public OrderDTO(Short orderId, Payment payment, LocalDateTime orderDate, BigDecimal totalPrice, Customer customer, Shipment shipment, BigDecimal totalPrice1) {
         this.customerId = customer.getCustomerId();
-        this.paymentId = payment.getPaymentId();
-        this.shipmentId = shipment.getShipmentId();
+        if (payment != null) {
+            this.paymentId = payment.getPaymentId();
+        }
+        // Verificar si shipment no es nulo antes de acceder a shipmentId
+        if (shipment != null) {
+            this.shipmentId = shipment.getShipmentId();
+        }
         this.totalPrice = totalPrice;
     }
 

@@ -38,9 +38,9 @@ public class Shipment {
     private String zipCode;
     @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Orders> orders;
-    //relacion muchos a uno con customer
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
 
 }
