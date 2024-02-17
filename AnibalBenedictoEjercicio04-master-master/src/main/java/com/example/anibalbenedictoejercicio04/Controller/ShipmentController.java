@@ -2,7 +2,6 @@ package com.example.anibalbenedictoejercicio04.Controller;
 
 import com.example.anibalbenedictoejercicio04.DTO.ShipmentDTO;
 import com.example.anibalbenedictoejercicio04.Entidades.Customer;
-import com.example.anibalbenedictoejercicio04.Entidades.Shipment;
 import com.example.anibalbenedictoejercicio04.Repositories.CustomerRepository;
 import com.example.anibalbenedictoejercicio04.Services.ShipmentService;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class ShipmentController {
     @PostMapping("/{customerId}")
     public ResponseEntity<ShipmentDTO> createShipment(@PathVariable("customerId") short customerId, @RequestBody ShipmentDTO shipmentDTO) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new RuntimeException("El Customer no encuentraado"));
         ShipmentDTO createdShipment = shipmentService.createShipment(shipmentDTO, customer);
         return ResponseEntity.ok(createdShipment);
     }

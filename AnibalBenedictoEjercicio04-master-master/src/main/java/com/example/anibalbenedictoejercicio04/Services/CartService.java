@@ -31,7 +31,6 @@ public class CartService {
         this.productRepository = productRepository;
         this.customerRepository = customerRepository;
     }
-    //getCartByCustomerId
     public List<ListadoCompraDTO> getCartByCustomerId(int customerId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Cart> cartPage = cartRepository.findCartByCustomerId(pageable, (short) customerId);

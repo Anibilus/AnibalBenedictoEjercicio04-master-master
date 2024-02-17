@@ -26,7 +26,6 @@ public class OrderDTO {
         if (payment != null) {
             this.paymentId = payment.getPaymentId();
         }
-        // Verificar si shipment no es nulo antes de acceder a shipmentId
         if (shipment != null) {
             this.shipmentId = shipment.getShipmentId();
         }

@@ -15,7 +15,6 @@ public class OrderItemDTO {
     private Short productId;
     private int quantity;
     private BigDecimal price;
-
     public OrderItemDTO(short orderItemId, Orders orders, BigDecimal price, int quantity, Product product) {
         this.productId = orderItemId;
         this.price = price;

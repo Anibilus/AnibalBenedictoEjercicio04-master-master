@@ -9,6 +9,8 @@ INSERT INTO CATEGORY (NAME) VALUES ('Juguetes');
 -- Insertar clientes
 INSERT INTO CUSTOMER (first_name,last_name, EMAIL,password,address,phone_number) VALUES ('Jorge', 'Hernandez', 'Jorge@.com', 'pepito12', 'Calle santacruz 123','63475345');
 INSERT INTO CUSTOMER (first_name,last_name, EMAIL,password,address,phone_number) VALUES ('Eustebio', 'Carrasco', 'Eustebioss@example.com', 'Eust645', 'Calle Penelope 123','645632224');
+-- Insertar wishlist
+insert into wishlist (wishlist_name, customer_id) values ('Wishlist1',1);
 
 -- Insertar productos ahora con wishlist
 INSERT INTO PRODUCT (sku, description, price, stock) VALUES ('SKU001', 'Smartphone avanzado', 699.99, 50);
@@ -45,12 +47,6 @@ INSERT INTO CART (quantity, product_id, customer_id) VALUES (1, 7, 1);
 INSERT INTO CART (quantity, product_id, customer_id) VALUES (1, 8, 2);
 INSERT INTO CART (quantity, product_id, customer_id) VALUES (1, 9, 1);
 INSERT INTO CART (quantity, product_id, customer_id) VALUES (1, 10, 2);
--- Insertar wishlist
-INSERT INTO WISHLIST(wishlist_name,customer_id) VALUES ('wishlist1',1);
-INSERT INTO WISHLIST(wishlist_name,customer_id) VALUES ('wishlist2',2);
---asociar productos a wishlist
-INSERT INTO WISHLIST_PRODUCT(wishlist_id,product_id) VALUES (1,1);
-INSERT INTO WISHLIST_PRODUCT(wishlist_id,product_id) VALUES (1,2);
-INSERT INTO WISHLIST_PRODUCT(wishlist_id,product_id) VALUES (2,3);
-INSERT INTO WISHLIST_PRODUCT(wishlist_id,product_id) VALUES (2,4);
-INSERT INTO WISHLIST_PRODUCT(wishlist_id,product_id) VALUES (2,5);
+
+
+

@@ -20,6 +20,7 @@ public class Product {
     @Basic
     @Column(name = "SKU", nullable = false,length = 100)
     private String sku;
+    @Getter
     @Basic
     @Column(name = "description",nullable = false,length = 100)
     private String description;
@@ -43,85 +44,7 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
-    //relacion muchos a muchos con wishlist
-    @ManyToMany( cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "product_wishlist",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "wishlist_id")
-    )
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
     private List<Wishlist> wishlists;
 
-
-    public short getProductId() {
-        return productId;
-    }
-
-    public void setProductId(short productId) {
-        this.productId = productId;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
-    public List<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<Wishlist> getWishlists() {
-        return wishlists;
-    }
-
-    public void setWishlists(List<Wishlist> wishlists) {
-        this.wishlists = wishlists;
-    }
 }

@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import com.example.anibalbenedictoejercicio04.Entidades.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class ProductDTO {
     private short id;

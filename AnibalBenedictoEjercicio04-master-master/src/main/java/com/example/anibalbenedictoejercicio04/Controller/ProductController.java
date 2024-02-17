@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 
 @RestController
@@ -30,7 +28,6 @@ public class ProductController {
         List<ProductDTO> productDTOList = productService.getPaginatedProducts(page, size);
         return ResponseEntity.ok(productDTOList);
     }
-
     @GetMapping("/search/{query}")
     public ResponseEntity<List<ProductDTO>> getfindByDescription(
             @RequestParam(defaultValue = "0") int page,

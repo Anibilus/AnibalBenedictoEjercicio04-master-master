@@ -30,29 +30,19 @@ public class OrderService {
 
     @Transactional
     public OrderDTO createOrderFromCart(Short customerId) {
-        // Crear un objeto Pageable para obtener todos los elementos del carrito del cliente
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
-        // Obtener los elementos del carrito del cliente
         Page<Cart> cartItemsPage = cartRepository.findCartByCustomerId(pageable, customerId);
-        // Convertir la página a una lista
         List<Cart> cartItems = cartItemsPage.getContent();
-
-        // Calcular el precio total de la orden
         BigDecimal totalPrice = calculateTotalPrice(cartItems);
-
-        // Obtener el cliente
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        // Crear una nueva orden y establecer el cliente
         Orders order = new Orders();
         order.setOrderDate(LocalDateTime.now());
         order.setTotalPrice(totalPrice);
         order.setCustomer(customer); // Establecer el cliente en la orden
-
         Orders savedOrder = orderRepository.save(order);
 
-        // Crear los elementos de pedido asociados a esta orden
         for (Cart cartItem : cartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrders(savedOrder);
@@ -61,9 +51,7 @@ public class OrderService {
             orderItem.setPrice(cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
             orderItemRepository.save(orderItem);
         }
-        // Vaciar el carrito después de crear la orden
         cartRepository.vaciarCarrito(customerId);
-
         return OrderDTO.fromEntity(savedOrder);
     }
     private BigDecimal calculateTotalPrice(List<Cart> cartItems) {
