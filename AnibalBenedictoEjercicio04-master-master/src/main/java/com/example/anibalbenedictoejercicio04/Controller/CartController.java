@@ -52,10 +52,10 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/{customerId}/product/{productId}")
+    @DeleteMapping("deleteProductOnCart/{customerId}/products")
     public ResponseEntity<String> deleteProductFromCart(
-            @PathVariable Short customerId,
-            @PathVariable Short productId) {
+            @PathVariable Short customerId,@RequestBody Map<String, Object> requestBody) {
+        short productId=Short.valueOf(requestBody.get("productId").toString());
         return cartService.deleteProductFromCart(customerId, productId);
     }
 }
