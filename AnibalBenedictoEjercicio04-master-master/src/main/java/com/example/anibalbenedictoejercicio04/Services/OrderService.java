@@ -35,12 +35,12 @@ public class OrderService {
         List<Cart> cartItems = cartItemsPage.getContent();
         BigDecimal totalPrice = calculateTotalPrice(cartItems);
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
         Orders order = new Orders();
         order.setOrderDate(LocalDateTime.now());
         order.setTotalPrice(totalPrice);
-        order.setCustomer(customer); // Establecer el cliente en la orden
+        order.setCustomer(customer);
         Orders savedOrder = orderRepository.save(order);
 
         for (Cart cartItem : cartItems) {

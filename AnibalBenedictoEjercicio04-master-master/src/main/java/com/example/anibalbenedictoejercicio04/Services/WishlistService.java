@@ -24,7 +24,7 @@ public class WishlistService {
             wishlist.getProducts().add(product);
             wishlistRepository.save(wishlist);
         } else {
-            throw new RuntimeException("Wishlist not found");
+            throw new RuntimeException("Lista de Deseo no encontrada");
         }
     }
     public List<ProductDTO> getProductsByWishlistId(Short wishlistId) {
@@ -44,14 +44,14 @@ public class WishlistService {
         Product productToRemove = wishlist.getProducts().stream()
                 .filter(product -> product.getProductId() == productId)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found in wishlist"));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado en la lista de deseos"));
 
         wishlist.getProducts().remove(productToRemove);
         wishlistRepository.save(wishlist);
     }
     public void clearWishlist(Short wishlistId) {
         Wishlist wishlist = wishlistRepository.findById(wishlistId)
-                .orElseThrow(() -> new RuntimeException("Wishlist not found"));
+                .orElseThrow(() -> new RuntimeException("Lista de deseos no encontrada"));
         wishlist.getProducts().clear();
         wishlistRepository.save(wishlist);
     }
